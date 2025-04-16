@@ -1,0 +1,5 @@
+Flask
+flask-pymongo
+flask-mail
+werkzeug
+pyjwt

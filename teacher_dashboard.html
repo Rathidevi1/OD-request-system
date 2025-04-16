@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="centered">
+    <div class="form-container">
+        <h2>Welcome, Teacher!</h2>
+
+        <label for="status">Filter Requests:</label>
+        <select id="status" onchange="filterRequests(this.value)">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+
+        <div id="requests"></div>
+
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+
+    <script>
+        function fetchRequests(status = "") {
+            fetch("/view_od_requests" + (status ? "?status=" + status : ""))
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("requests");
+                    if (!data.length) {
+                        container.innerHTML = "<p>No requests found.</p>";
+                        return;
+                    }
+                    container.innerHTML = data.map(req => `
+                        <div class="request-box">
+                            <p><strong>Student:</strong> ${req.student_email}</p>
+                            <p><strong>Event:</strong> ${req.event_name}</p>
+                            <p><strong>Date:</strong> ${req.event_date}</p>
+                            <p><strong>Reason:</strong> ${req.reason}</p>
+                            <p><strong>Status:</strong> ${req.status}</p>
+                            <form action="/update_od_request" method="post">
+                                <input type="hidden" name="student_email" value="${req.student_email}">
+                                <button name="status" value="Approved">Approve</button>
+                                <button name="status" value="Rejected">Reject</button>
+                            </form>
+                        </div>
+                    `).join('');
+                });
+        }
+
+        function filterRequests(status) {
+            fetchRequests(status);
+        }
+
+        fetchRequests();
+    </script>
+</body>
+</html>

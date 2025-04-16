@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My OD Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="centered">
+    <div class="form-container">
+        <h2>My OD Requests</h2>
+        {% if requests %}
+            {% for req in requests %}
+            <div class="request-box">
+                <p><strong>Event:</strong> {{ req.event_name }}</p>
+                <p><strong>Date:</strong> {{ req.event_date }}</p>
+                <p><strong>Reason:</strong> {{ req.reason }}</p>
+                <p><strong>Status:</strong> {{ req.status }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No OD requests submitted yet.</p>
+        {% endif %}
+        <a href="/student_dashboard" class="btn">Back to Dashboard</a>
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+</body>
+</html>

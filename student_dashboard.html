@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="centered">
+    <div class="form-container">
+        <h2>Welcome, Student!</h2>
+        <form action="/od_request" method="post">
+            <input type="text" name="event_name" placeholder="Event Name" required>
+            <input type="date" name="event_date" required>
+            <textarea name="reason" placeholder="Reason" required></textarea>
+            <button type="submit">Submit OD Request</button>
+        </form>
+        <br>
+        <a href="/my_requests" class="btn">View My Requests</a>
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+</body>
+</html>
